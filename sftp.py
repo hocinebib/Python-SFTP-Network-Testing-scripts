@@ -1,8 +1,10 @@
+
 import paramiko
+import os
 
 host = 'eu-central-1.sftpcloud.io'
-user = '872d6c1f283f4eafb0693df8bbc2981e'
-pswd = '1U3XzBAai36zR2up6YZX2NGzpdxHFHe8'
+user = '4da0c1944ee0490f88543ccb3ade88e3'
+pswd = 'DCm5xIRVuxFL6us2XeXf6lLBT54Bcu7N'
 
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -11,4 +13,13 @@ ssh.connect(host, username=user, password=pswd,allow_agent=False,look_for_keys=F
 
 
 sftp = ssh.open_sftp()
-print(sftp.listdir('test/outgoing'))
+print(sftp.listdir('outgoing'))
+
+
+t = sftp.listdir_attr('outgoing')
+
+a = str(t[0])
+
+print(' '.join(a.split()[-4:]))
+
+ssh.close()
