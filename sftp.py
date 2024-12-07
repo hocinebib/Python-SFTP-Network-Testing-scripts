@@ -13,7 +13,12 @@ ssh.connect(host, username=user, password=pswd,allow_agent=False,look_for_keys=F
 
 
 sftp = ssh.open_sftp()
+
 print(sftp.listdir('outgoing'))
+
+for f in sftp.listdir('outgoing'):
+	if '.' in f:
+		print(f)
 
 
 t = sftp.listdir_attr('outgoing')
