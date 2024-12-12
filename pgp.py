@@ -24,4 +24,5 @@ with open("public_key.txt", 'r') as f:
 	for l in f:
 		public_key += l
 
-
+with open(file_to_encrypt, "rb") as f:
+    status = gpg.encrypt_file(f, recipients=["hocine.meraouna@gmail.com"], output=encrypted_file)
