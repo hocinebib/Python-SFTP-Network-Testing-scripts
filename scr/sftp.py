@@ -13,6 +13,19 @@ use exemple :
 import paramiko
 import argparse
 
+def sftp_connection1(host, username, password, folder):
+	"""
+	function used for the connection to the SFTP account and to list the files
+	using paramiko library to do so
+	"""
+
+	ssh = paramiko.SSHClient()
+	ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+	ssh.connect(host, username=username, password=password,allow_agent=False,look_for_keys=False)
+
+	return ssh
+
 
 def sftp_connection(host, username, password, folder):
 	"""
@@ -43,13 +56,9 @@ def sftp_connection(host, username, password, folder):
 	ssh.close()
 
 
-def pull_file(host, username, password, folder):
+def pull_file(ssh, folder):
 	"""
 	"""
-	ssh = paramiko.SSHClient()
-	ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-
-	ssh.connect(host, username=username, password=password,allow_agent=False,look_for_keys=False)
 
 	sftp = ssh.open_sftp()
 
@@ -67,13 +76,9 @@ def pull_file(host, username, password, folder):
 	ssh.close()
 
 
-def push_file(host, username, password, folder, file_to_push):
+def push_file(ssh, folder, file_to_push):
 	"""
 	"""
-	ssh = paramiko.SSHClient()
-	ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-
-	ssh.connect(host, username=username, password=password,allow_agent=False,look_for_keys=False)
 
 	sftp = ssh.open_sftp()
 
@@ -108,10 +113,6 @@ if __name__ == '__main__':
 
     FOLDER = ARGS.folder_path
 
-    pull_file(HOST, USERNAME, PASSWORD, FOLDER)
+    pull_file(sftp_connection1(HOST, USERNAME, PASSWORD, FOLDER), FOLDER)
 
-    push_file(HOST, USERNAME, PASSWORD, FOLDER, "../topush.txt")
-
-#    sftp_connection(HOST, USERNAME, PASSWORD, FOLDER)
-
-#ftp_client.put(‘localfilepath’,remotefilepath’)
+    push_file(sftp_connection1(HOST, USERNAME, PASSWORD, FOLDER), FOLDER, "../topush.txt")
