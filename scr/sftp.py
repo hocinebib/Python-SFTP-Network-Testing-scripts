@@ -62,10 +62,28 @@ def pull_file(host, username, password, folder):
 			files_to_pull.append(f)
 
 	for f in files_to_pull:
-		sftp.get("test/outgoing/"+f,"../pulledfile.txt")
+		sftp.get(folder+"/"+f,"../"+f)
 
 	ssh.close()
 
+
+def push_file(host, username, password, folder, file_to_push):
+	"""
+	"""
+	ssh = paramiko.SSHClient()
+	ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+	ssh.connect(host, username=username, password=password,allow_agent=False,look_for_keys=False)
+
+	sftp = ssh.open_sftp()
+
+	print(sftp.listdir("test/incoming/"))
+
+	sftp.put(file_to_push,"test/incoming/"+file_to_push.split('.')[-2]+"v2.txt")
+
+	print(sftp.listdir("test/incoming/"))
+
+	ssh.close()
 
 
 if __name__ == '__main__':
@@ -91,6 +109,8 @@ if __name__ == '__main__':
     FOLDER = ARGS.folder_path
 
     pull_file(HOST, USERNAME, PASSWORD, FOLDER)
+
+    push_file(HOST, USERNAME, PASSWORD, FOLDER, "../topush.txt")
 
 #    sftp_connection(HOST, USERNAME, PASSWORD, FOLDER)
 
