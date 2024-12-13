@@ -43,6 +43,31 @@ def sftp_connection(host, username, password, folder):
 	ssh.close()
 
 
+def pull_file(host, username, password, folder):
+	"""
+	"""
+	ssh = paramiko.SSHClient()
+	ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+	ssh.connect(host, username=username, password=password,allow_agent=False,look_for_keys=False)
+
+	sftp = ssh.open_sftp()
+
+	print(sftp.listdir(folder))
+
+	files_to_pull = []
+
+	for f in sftp.listdir(folder):
+		if '.' in f:
+			files_to_pull.append(f)
+
+	for f in files_to_pull:
+		sftp.get("test/outgoing/"+f,"../pulledfile.txt")
+
+	ssh.close()
+
+
+
 if __name__ == '__main__':
 
     PARSER = argparse.ArgumentParser()
@@ -65,5 +90,8 @@ if __name__ == '__main__':
 
     FOLDER = ARGS.folder_path
 
-    sftp_connection(HOST, USERNAME, PASSWORD, FOLDER)
+    pull_file(HOST, USERNAME, PASSWORD, FOLDER)
 
+#    sftp_connection(HOST, USERNAME, PASSWORD, FOLDER)
+
+#ftp_client.put(‘localfilepath’,remotefilepath’)
