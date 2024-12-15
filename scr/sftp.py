@@ -50,14 +50,18 @@ def sftp_previous_files(ssh, folder):
 
 	t = sftp.listdir_attr(folder)
 
-	for i in t:
-		print(str(i))
+	with open("storingfile.txt", "r+") as file:
+		existing_content = file.read()
+		for i in t:
+			if str(i) not in existing_content:
+				file.write(str(i) + "\n")
 
 	ssh.close()
 
 
 def pull_file(ssh, folder):
 	"""
+	function to pull files
 	"""
 
 	sftp = ssh.open_sftp()
@@ -76,11 +80,12 @@ def pull_file(ssh, folder):
 
 def push_file(ssh, folder, file_to_push):
 	"""
+	function to push files
 	"""
 
 	sftp = ssh.open_sftp()
 
-	sftp.put(file_to_push,"test/incoming/"+file_to_push.split('.')[-2]+"v5.txt")
+	sftp.put(file_to_push,"test/incoming/"+file_to_push.split('.')[-2]+"v2.txt")
 
 	ssh.close()
 
