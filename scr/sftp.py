@@ -6,12 +6,26 @@ some messing around about sftp connection with password using python library par
 
 use exemple :
 
-	python3 sftp.py [host] [username] [password] [folder path]
+	python3 sftp.py [host] [port] [username] [password] [folder path]
 
 """
 
 import paramiko
 import argparse
+import telnetlib
+
+
+def telnet_test(host, port):
+	"""
+	function for a telnet test
+	"""
+
+	try:
+		test = telnetlib.Telnet(host,port)
+		return True
+	except:
+		return False
+
 
 def sftp_connection1(host, username, password, folder):
 	"""
@@ -97,6 +111,8 @@ if __name__ == '__main__':
 
     PARSER.add_argument("host", help="the SFTP server hostname of IP address", type=str)
 
+    PARSER.add_argument("port", help="port number of the server", type=str)
+
     PARSER.add_argument("username", help="the username/login",  type=str)
 
     PARSER.add_argument("password", help="the password for the authentication", type=str)
@@ -107,12 +123,21 @@ if __name__ == '__main__':
 
     HOST = ARGS.host
 
+    PORT = ARGS.port
+
     USERNAME = ARGS.username
 
     PASSWORD = ARGS.password
 
     FOLDER = ARGS.folder_path
 
-    pull_file(sftp_connection1(HOST, USERNAME, PASSWORD, FOLDER), FOLDER)
+    if telnet_test(HOST, PORT):
 
-    push_file(sftp_connection1(HOST, USERNAME, PASSWORD, FOLDER), FOLDER, "../topush.txt")
+    	print("Telnet test successful")
+
+    	pull_file(sftp_connection1(HOST, USERNAME, PASSWORD, FOLDER), FOLDER)
+
+    	push_file(sftp_connection1(HOST, USERNAME, PASSWORD, FOLDER), FOLDER, "../topush.txt")
+
+    else:
+    	print("failed telnet test")
