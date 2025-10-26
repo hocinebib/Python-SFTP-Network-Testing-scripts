@@ -6,12 +6,13 @@ some messing around about getting IP address/DNS
 
 use exemple :
 
-	python3 DnsLookup.py [DNS]
+	python3 DnsLookup.py [DNS or IP address]
 
 """
 
 import argparse
 import socket
+import ipaddress
 
 def dns_lookup(dns):
 	"""
@@ -19,14 +20,24 @@ def dns_lookup(dns):
 	"""
 	return socket.gethostbyname(dns)
 
+def reverse_dns_lookup(ip):
+	"""
+	function to get the DNS
+	"""
+	return socket.gethostbyaddr(ip)[0]
+
 if __name__ == '__main__':
 
     PARSER = argparse.ArgumentParser()
 
-    PARSER.add_argument("dns", help="the DNS for which you are looking for the IP address", type=str)
+    PARSER.add_argument("host", help="the DNS/IP address for the lookup/reverse lookup", type=str)
 
     ARGS = PARSER.parse_args()
 
-    DNS = ARGS.dns
+    HOST = ARGS.host
 
-    print(dns_lookup(DNS))
+    try:
+        ipaddress.ip_address(HOST)
+        print(reverse_dns_lookup(HOST))
+    except Exception as e:
+    	print(dns_lookup(HOST))
