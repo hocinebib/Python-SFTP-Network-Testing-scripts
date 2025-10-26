@@ -1,9 +1,11 @@
-# test
+# Simple python scripts related to sFTP and Network
 
-this is a test\\
+just a repository with some simple scripts done for testing purpose
 
-gpg --gen-key\
-subl test_encrypt.txt\
-gpg --encrypt test_encrypt.txt\
-subl test_encrypt.txt.gpg\
-gpg --decrypt test_encrypt.txt.gpg > decrypted\
+- `CountSubnet.py` a simple python script for counting the number of IP addresses on a subnet
+- `DnsLookup.py` a simple python script to perform DNS lookup and reverse lookup
+- `PasswordGen.py` a simple python script to generate a random password
+- `Pgp.py` a simple python script to pgp encypt and decrypt files
+- `Sftp.py` a simple python script for the connection to SFTP servers by password
+
+---
