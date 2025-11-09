@@ -9,10 +9,11 @@ use exemple :
     python3 Telnet.py address port
 
 """
+
 import argparse
 import socket, errno
 
-def telnet_test_ex(host, port):
+def telnet_test(host, port):
     s = socket.socket()
     try:
         s.connect((host, port))
@@ -36,4 +37,4 @@ if __name__ == '__main__':
     ADDRESS = ARGS.address
     PORT = ARGS.port
 
-    print(telnet_test_ex(ADDRESS, PORT))
+    print(telnet_test(ADDRESS, PORT))
