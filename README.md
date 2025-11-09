@@ -7,5 +7,7 @@ just a repository with some simple scripts done for testing purpose
 - `PasswordGen.py` a simple python script to generate a random password
 - `Pgp.py` a simple python script to pgp encypt and decrypt files
 - `Sftp.py` a simple python script for the connection to SFTP servers by password
+- `PublicIP.py` a simple python script to show your public IPv4 address
+- `Telnet.py` a simple python script for telnet test
 
 ---

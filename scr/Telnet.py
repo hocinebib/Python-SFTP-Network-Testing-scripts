@@ -19,11 +19,11 @@ def telnet_test(host, port):
         s.connect((host, port))
     except Exception as e:
         s.close()
-        return("Error :", str(e))
+        return("Error : failed telnet", str(e))
     s.sendall(b'Test')
     r = s.recv(8192)
     s.close()
-    return(r)
+    return(" Successful telnet :", r)
 
 if __name__ == '__main__':
 
